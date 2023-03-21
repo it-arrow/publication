@@ -52,6 +52,7 @@ use App\Http\Controllers\StrengthController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\EnquiryController;
 use App\Http\Controllers\BreadCrumbController;
+use App\Http\Controllers\SchoolController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -84,7 +85,7 @@ Route::group(['prefix' => 'dashboard',  'middleware' => 'auth'], function () {
     Route::get('/social-media/{id}',[SettingController::class,'delete_social'])->name('delete.social');
     Route::patch('/breadcrumb/{id}',[SettingController::class,'breadcrumb_image'])->name('breadcrumb_image');
 
-    
+
     //profile settings
     Route::get('/profile',[ProfileController::class,'edit_profile'])->name('profile.edit');
     Route::post('/profile',[ProfileController::class,'update_profile'])->name('profile.update');
@@ -94,7 +95,7 @@ Route::group(['prefix' => 'dashboard',  'middleware' => 'auth'], function () {
     Route::get('/category/update-featured',[ServiceCategoryController::class,'featured_status'])->name('category.featured_status');
     Route::post('/city/get_city_by_district',[CityController::class,'get_city_by_district'])->name('city.get_city_by_district');
 
-    
+
     Route::post('/subcat/get_subcat_by_category',[SubcategoryController::class,'sub_cat_by_category'])->name('subcat.get_subcat_by_category');
     Route::post('/manpower/get_manpower_by_subcategory',[ManpowerController::class,'manpower_by_subcategory'])->name('manpower.get_manpower_by_subcategory');
     Route::post('/manpower/get_manpower_by_category',[ManpowerController::class,'manpower_by_category'])->name('manpower.get_manpower_by_category');
@@ -139,6 +140,8 @@ Route::group(['prefix' => 'dashboard',  'middleware' => 'auth'], function () {
     Route::resource('/policy',PolicyController::class);
     Route::resource('/in-case-of-grievance',InCaseGrievanceController::class);
 
+    //School
+    Route::resource('/schools',SchoolController::class);
 
 
 
@@ -152,7 +155,7 @@ Route::group(['prefix' => 'dashboard',  'middleware' => 'auth'], function () {
     Route::resource('/training',TrainingController::class);
     Route::resource('/why-us',WhyUsController::class);
     Route::resource('/services',ServiceController::class);
-    
+
     Route::resource('/bookings',ControllersBookingController::class);
     Route::resource('/manpowers',ManpowerController::class);
     Route::resource('/customers',CustomerController::class);
@@ -172,12 +175,12 @@ Route::group(['prefix' => 'dashboard',  'middleware' => 'auth'], function () {
     Route::resource('/payment',PaymentController::class);
 
 
-    
+
     Route::get('/sliders/update-status',[SliderController::class,'update_status'])->name('slider.update_status');
-    
+
     Route::post('ckeditor/upload', [CkeditorController::class,'upload'])->name('ckeditor.upload');
     Route::resource('/blogs',BlogController::class);
-    
+
     Route::get('/social_settings', [SocialSettingsController::class, 'index'])->name('social');
     // Route::post('/social_settings', [SocialSettingsController::class, 'store'])->name('socialStore');
     Route::patch('/social_settings/edit/{id}', [SocialSettingsController::class, 'update'])->name('socialUpdate');
@@ -186,13 +189,13 @@ Route::group(['prefix' => 'dashboard',  'middleware' => 'auth'], function () {
     Route::resource('/users', UserController::class);
     Route::resource('/permissions', PermissionController::class);
     Route::resource('/teams', TeamController::class);
-    
+
     Route::resource('/banners', BannerController::class);
     Route::resource('/sliders', SliderController::class);
     Route::get('/hiring-image',[StepController::class,'process_image'])->name('steps.process_image');
     Route::post('/hiring-image/{id}', [StepController::class, 'update_process_image'])->name('update.process_image');
     Route::resource('/steps', StepController::class);
-    
+
 	Route::resource('/pages', PageController::class);
 
     Route::get('gallery/photo',[GalleryController::class,'index'])->name('photo.index');
@@ -208,7 +211,7 @@ Route::group(['prefix' => 'dashboard',  'middleware' => 'auth'], function () {
 
     Route::get('/contact', [MessageController::class,'index'])->name('messages.index');
 	Route::get('/contact/{id}', [MessageController::class,'show'])->name('messages.show');
-	Route::delete('/contact/{id}', [MessageController::class,'delete'])->name('messages.destroy'); 
+	Route::delete('/contact/{id}', [MessageController::class,'delete'])->name('messages.destroy');
 
     Route::get('/callbacks', [MessageController::class,'callbacks'])->name('callbacks.index');
     Route::get('/callback/{id}', [MessageController::class,'callbacks_show'])->name('callback.show');
@@ -219,12 +222,13 @@ Route::group(['prefix' => 'dashboard',  'middleware' => 'auth'], function () {
     Route::resource('/faq',FaqController::class);
     Route::resource('/breadcrumb-image',BreadCrumbController::class);
 
+
 });
 
 
 Route::get('/auth/github/redirect',[SocialController::class,'githubRedirect'])->name('githubLogin');
 Route::get('/auth/github/callback',[SocialController::class,'callback']);
- 
+
 require __DIR__ . '/auth.php';
 
 //frontend routes
