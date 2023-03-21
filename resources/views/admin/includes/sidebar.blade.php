@@ -82,7 +82,7 @@
 
             </li>
             <li class="side-nav-item">
-                <a href="{{route('users.index')}}" class="side-nav-link">
+                <a href="{{route('grades.index')}}" class="side-nav-link">
                     <i class="mdi mdi-star"></i>
                     <span> Grades </span>
                 </a>
