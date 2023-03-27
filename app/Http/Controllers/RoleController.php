@@ -26,6 +26,7 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::all();
+        // $permissions =
         return view('admin.role.index', compact('roles'));
     }
 
@@ -59,7 +60,7 @@ class RoleController extends Controller
 
         $role->syncPermissions($request->input('permission'));
         // dd($role);
-        return redirect('/roles')->with('status', 'Role has been added successfully');
+        return redirect()->route('roles.index')->with('status', 'Role has been added successfully');
     }
 
     /**
@@ -109,7 +110,7 @@ class RoleController extends Controller
         $role->update();
         $role->syncPermissions($request->input('permission'));
         // dd($role);
-        return redirect('/roles')->with('status', 'Role has been added successfully');
+        return redirect()->route('roles.index')->with('status', 'Role has been added successfully');
     }
 
     /**

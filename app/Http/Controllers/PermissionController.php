@@ -44,7 +44,7 @@ class PermissionController extends Controller
 
         Permission::create(['name' => $request->input('permission')]);
 
-        return redirect('/permissions')->with('status', 'Permission has been added successfully');
+        return redirect()->route('permissions.index')->with('status', 'Permission has been added successfully');
     }
 
     /**
@@ -80,14 +80,14 @@ class PermissionController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'permission' => 'required|unique:permissions,name',
+            'permission' => 'required|unique:permissions,name,'.$id,
         ]);
 
         $permission = Permission::findOrFail($id);
         $permission->name = $request['permission'];
         $permission->update();
 
-        return redirect('/permissions')->with('status', 'Permission has been added successfully');
+        return redirect()->route('permissions.index')->with('status', 'Permission has been added successfully');
     }
 
     /**

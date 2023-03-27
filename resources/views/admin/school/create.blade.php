@@ -33,32 +33,32 @@
                             @csrf
 
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="name">School Name</label> <span class="text-danger"> * </span>
                                             <input type="text" class="form-control" name="name" value="{{old('name')}}" required>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="name">Address</label>
                                         <textarea name="address" class="form-control">{{old('address')}}</textarea>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-12">
+                                <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="name">Email</label> <span class="text-danger"> * </span>
                                             <input type="email" class="form-control" name="email" value="{{old('email')}}" required>
                                     </div>
                                 </div>
-                                <div class="col-lg-12">
+                                <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="name">Number</label> <span class="text-danger"> * </span>
                                             <input type="text" class="form-control" name="number" value="{{old('number')}}" required>
                                     </div>
                                 </div>
-                                <div class="col-lg-12">
+                                <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="name">Principal Name</label> <span class="text-danger"> * </span>
                                             <input type="text" class="form-control" name="principal_name" value="{{old('principal_name')}}" required>

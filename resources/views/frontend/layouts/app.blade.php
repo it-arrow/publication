@@ -45,15 +45,16 @@
         @include('frontend.includes.nav')
         {{-- @include('frontend.includes.floating') --}}
         {{-- @if (Route::is('home')||Route::is('service.detail')||Route::is('blog.detail')||Route::is('custom_page')||Route::is('single-training')||Route::is('services'))
-        
-        
+
+
         @else
             @include('frontend.includes.breadcrumb')
         @endif --}}
         @yield('content')
-        @include('frontend.includes.footer') 
+        @include('frontend.includes.footer')
+        @include('frontend.includes.script')
     </div>
-    <script src="{{ asset('frontend/assets/js/jquery.js')}}"></script> 
+    <script src="{{ asset('frontend/assets/js/jquery.js')}}"></script>
     <!--Revolution Slider-->
     <script src="{{ asset('frontend/assets/plugins/revolution/js/jquery.themepunch.revolution.min.js')}}"></script>
     <script src="{{ asset('frontend/assets/plugins/revolution/js/jquery.themepunch.tools.min.js')}}"></script>
@@ -67,7 +68,7 @@
     <script src="{{ asset('frontend/assets/plugins/revolution/js/extensions/revolution.extension.slideanims.min.js')}}"></script>
     <script src="{{ asset('frontend/assets/plugins/revolution/js/extensions/revolution.extension.video.min.js')}}"></script>
     <script src="{{ asset('frontend/assets/js/main-slider-script.js')}}"></script>
-    
+
     <script src="{{ asset('frontend/assets/js/bootstrap.min.js')}}"></script>
     <script src="{{ asset('frontend/assets/js/jquery.fancybox.js')}}"></script>
     <script src="{{ asset('frontend/assets/js/jquery-ui.js')}}"></script>
@@ -87,7 +88,7 @@
         }
                 toastr.success("{{ session('message') }}");
         @endif
-      
+
         @if(Session::has('error'))
         toastr.options =
         {
@@ -96,7 +97,7 @@
         }
                 toastr.error("{{ session('error') }}");
         @endif
-      
+
         @if(Session::has('info'))
         toastr.options =
         {
@@ -105,7 +106,7 @@
         }
                 toastr.info("{{ session('info') }}");
         @endif
-      
+
         @if(Session::has('warning'))
         toastr.options =
         {
@@ -118,5 +119,5 @@
     </script>
     @yield('script')
     </body>
-    
+
     </html>

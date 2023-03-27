@@ -35,10 +35,23 @@ use App\Models\Faq;
 use App\Models\HomePage;
 use App\Models\Strength;
 use Illuminate\Http\Request;
+use Mail;
+use App\Models\Book;
+use App\Models\Token;
+use Illuminate\Support\Str;
+use Auth;
+use Session;
+use Carbon\Carbon;
+use App\Models\UserToken;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
 
 class FrontendController extends Controller
 {
+
     public function index(){
+        // Session::forget('token');
+        // dd(Session::get('token'));
         $setting=SiteSetting::first();
         $sliders=Slider::where('status',1)->get();
         $blogs = Blog::orderBy('created_at','desc')->where('status',1)->take(3)->get();
@@ -53,7 +66,8 @@ class FrontendController extends Controller
         $countries=Country::take(6)->get();
         $banner=Banner::first();
         $faqs=Faq::all();
-        return view('frontend.index',compact('setting','faqs','sliders','blogs','clients','whyus','banner','categories','about','trusts','counters','testimonials','countries'));
+        $book = Book::first();
+        return view('frontend.index',compact('setting','faqs','sliders','blogs','clients','whyus','banner','categories','about','trusts','counters','testimonials','countries','book'));
     }
     public function about(){
         $about = About::first();
@@ -65,7 +79,7 @@ class FrontendController extends Controller
         }else{
             return view('frontend.404');
         }
-        
+
     }
     public function awards(){
         $awards = Award::all();
@@ -76,7 +90,7 @@ class FrontendController extends Controller
         }else{
             return view('frontend.404');
         }
-        
+
     }
     public function mission_vision(){
         $mission = About::first();
@@ -87,7 +101,7 @@ class FrontendController extends Controller
         }else{
             return view('frontend.404');
         }
-        
+
     }
     public function chairman_message(){
         $message = About::first();
@@ -98,7 +112,7 @@ class FrontendController extends Controller
         }else{
             return view('frontend.404');
         }
-        
+
     }
     public function organization_chart(){
         $chart = About::first();
@@ -109,7 +123,7 @@ class FrontendController extends Controller
         }else{
             return view('frontend.404');
         }
-        
+
     }
     public function company_documents(){
         $documents = CompanyDocument::all();
@@ -120,7 +134,7 @@ class FrontendController extends Controller
         }else{
             return view('frontend.404');
         }
-        
+
     }
     public function demand_documents(){
         $documents = DemandDocument::all();
@@ -131,7 +145,7 @@ class FrontendController extends Controller
         }else{
             return view('frontend.404');
         }
-        
+
     }
     public function our_strength(){
         $strengths = Strength::all();
@@ -142,7 +156,7 @@ class FrontendController extends Controller
         }else{
             return view('frontend.404');
         }
-        
+
     }
     public function strength_detail($slug){
         $strength = Strength::where('slug',$slug)->first();
@@ -152,7 +166,7 @@ class FrontendController extends Controller
         }else{
             return view('frontend.404');
         }
-        
+
     }
     public function calendar(){
         $setting=SiteSetting::first();
@@ -166,7 +180,7 @@ class FrontendController extends Controller
         }else{
             return view('frontend.404');
         }
-        
+
     }
     public function blog(){
         $blogs = Blog::orderBy('created_at','desc')->where('status',1)->paginate(12);
@@ -177,7 +191,7 @@ class FrontendController extends Controller
         }else{
             return view('frontend.404');
         }
-        
+
     }
 
     public function blog_detail($slug){
@@ -204,7 +218,7 @@ class FrontendController extends Controller
         $teams = Team::all();
         if($teams!=null){
             $setting=SiteSetting::first();
-            
+
             return view('frontend.teams',compact('setting','teams'));
         }else{
             return view('frontend.404');
@@ -223,7 +237,7 @@ class FrontendController extends Controller
         $setting=SiteSetting::first();
         return view('frontend.apply-now',compact('setting'));
     }
-    
+
     public function services($slug){
         $category=ServiceCategory::where('slug',$slug)->first();
         $services = $category->services;
@@ -312,7 +326,7 @@ class FrontendController extends Controller
             'phone'=>'required|numeric|digits:10|regex:/[9][6-9]\d{8}/',
             'address'=>'nullable|string|max:150',
             'message'=>'nullable|max:500'
-            
+
         ]);
         $message = new Callback();
         $message->name = $request->name;
@@ -388,5 +402,66 @@ class FrontendController extends Controller
             return view('frontend.404');
         }
     }
-    
+
+
+    function token_create(Request $request){
+        if(Auth::user()!=null){
+            //generate tokens
+            $token = new Token();
+            $generated_token = Str::random(10);
+            $token->token = $generated_token;
+            $token->expired_at = Carbon::now()->addMinutes(10);
+            $token ->save();
+            // Config::set('app.token_id', $token->id);
+            // return Config::get(key:'app.token_id');
+            // get usr id
+            $user = Auth::user();
+            $user_id = $user->id;
+
+            //store user id and token id
+            $user_token = new UserToken();
+            $user_token->teacher_id = $user_id;
+            $user_token->token_id = $token->id;
+            $user_token->save();
+
+            $book = Book::where('id',$request->book_id)->first();
+            $mailData = [
+                'name'  => $book->name,
+                'token'  => $generated_token,
+                'grade' => $book->grade,
+            ];
+            // dd($mailData);
+            $user['to']=Auth::user()->email;
+            Mail::send('mail',$mailData,function($message) use ($user) {
+                $message->to($user['to']);
+                $message->subject('Access Code');
+            });
+            return response()->json(['message'=>'Success']);
+        }else{
+            return response()->json(['message'=>'please Login']);
+        }
+    }
+
+    function access_code(Request $request){
+        // return Config::get(key:'app.token_id');
+        $token = Token::where('token',$request->access_code)->first();
+        if($token !=null){
+            if(Carbon::now()->isBefore($token->expired_at)){
+                $token = UserToken::where('token_id',$token->id)->where('teacher_id',Auth::user()->id)->first();
+                if($token != null){
+                    return 1;
+                }else{
+                    return "Please insert Valid Token";
+                }
+            }else{
+                return "date Expired";
+            }
+        }else{
+            return 'Please try again Somthieng worng!';
+        }
+
+
+
+}
+
 }

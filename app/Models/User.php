@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\School;
+use App\Models\UserToken;
 
 class User extends Authenticatable
 {
@@ -22,7 +24,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        
+        'user',
+        'school',
+
     ];
 
     /**
@@ -49,5 +53,12 @@ class User extends Authenticatable
     public function bookings(){
         return $this->hasMany(Booking::class,'user_id');
     }
-    
+    public function school_name(){
+        return $this->belongsTo(School::class,'school','id');
+    }
+
+    public function get_tokens(){
+        return $this->belongsTo(UserToken::class,'user_id');
+    }
+
 }

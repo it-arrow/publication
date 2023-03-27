@@ -7,7 +7,8 @@
     <div class="rev_slider_wrapper fullwidthbanner-container" id="rev_slider_one_wrapper" data-source="gallery">
         <div class="rev_slider fullwidthabanner" id="rev_slider_one" data-version="5.4.1">
             <ul>
-                
+
+
                 @foreach ($sliders as $key => $slider)
                     @if($key==0)
                     <li data-description="Slide Description" data-easein="default" data-easeout="default"
@@ -171,6 +172,10 @@
 </section>
 @endif
 <!--End Main Slider-->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="view-file">
+    Launch demo modal
+  </button>
+
 
 <!--Services Section-->
 @if (count($countries)>0)
@@ -204,7 +209,7 @@
                     </div>
                 </div>
             @endforeach
-            
+
 
         </div>
 
@@ -233,7 +238,7 @@
                             @else
                                 <img src="{{asset('placeholder.jpg')}}" alt="{{$trust->title}}" />
                             @endif
-                        @else  
+                        @else
                             <img src="{{asset('placeholder.jpg')}}" alt="{{$trust->title}}" />
                         @endif
                         {{-- <span class="icon flaticon-telemarketer"></span> --}}
@@ -312,7 +317,7 @@
                     @else
                         <img src="{{ asset('frontend/assets/images/resource/about.jpeg') }}" alt="{{ $whyus->title }}" />
                     @endif
-                    
+
                 </div>
             </div>
             <!--Content Column-->
@@ -362,8 +367,8 @@
             <div class="p-tab active-tab" id="p-tab-0">
                 <div class="project-carousel owl-theme owl-carousel">
                     @foreach (\App\Models\Service::all() as $service)
-                        
-                    
+
+
                     <div class="gallery-block">
                         <div class="inner-box">
                             <div class="image match-height">
@@ -376,7 +381,7 @@
                                 @else
                                     <img src="{{ asset('placeholder.jpg') }}" alt="{{ $service->name }}" />
                                 @endif
-                                
+
                                 <div class="overlay-box">
                                     <a href="javascript:" class="link-box"><span class="fa fa-link"></span></a>
                                 </div>
@@ -388,7 +393,7 @@
                         </div>
                     </div>
                     @endforeach
-                    
+
 
                 </div>
             </div>
@@ -397,8 +402,8 @@
             <div class="p-tab" id="p-tab-{{ $key+1 }}">
                 <div class="project-carousel owl-theme owl-carousel">
                     @foreach ($category->services as $service)
-                        
-                    
+
+
                     <div class="gallery-block">
                         <div class="inner-box">
                             <div class="image match-height">
@@ -411,7 +416,7 @@
                                 @else
                                     <img src="{{ asset('placeholder.jpg') }}" alt="{{ $service->name }}" />
                                 @endif
-                                
+
                                 <div class="overlay-box">
                                     <a href="javascript:" class="link-box"><span class="fa fa-link"></span></a>
                                 </div>
@@ -423,7 +428,7 @@
                         </div>
                     </div>
                     @endforeach
-                    
+
 
                 </div>
             </div>
@@ -460,7 +465,7 @@
                         @else
                             <img src="{{ asset('placeholder.jpg') }}" alt="{{ $testimonial->name }}" />
                         @endif
-                        
+
                     </div>
                     <h3>{{ $testimonial->name }}</h3>
                     <div class="designation">{{$testimonial->designation}}</div>
@@ -471,7 +476,7 @@
                 </div>
             </div>
             @endforeach
-            
+
 
         </div>
     </div>
@@ -610,7 +615,7 @@
                     <form method="post" action="{{route('callback')}}">
                         @csrf
                         <div class="row clearfix">
-                            
+
                             <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                 <input type="text" id="fname" name="name" value="{{ old('name') }}" placeholder="Enter Full Name" required>
                             </div>
@@ -654,11 +659,11 @@
 
                     <!--Block-->
                     @if (count($faqs)>0)
-                        
-                    
+
+
                     @foreach ($faqs as $faq)
-                        
-                    
+
+
                     <li class="accordion block">
                         <div class="acc-btn">
                             <div class="icon-outer"><span class="icon icon-plus fa fa-arrow-down"></span></div>{{$faq->question}}
@@ -694,14 +699,14 @@
                                         @else
                                             <img src="{{asset('placeholder.jpg')}}" alt="{{$counter->title}}" />
                                         @endif
-                                    @else  
+                                    @else
                                         <img src="{{asset('placeholder.jpg')}}" alt="{{$counter->title}}" />
                                     @endif
                                     {{-- <span class="icon flaticon-idea"></span> --}}
                                     <div class="count-outer count-box">
                                         <span class="count-text" data-speed="4000" data-stop="{{ $counter->stat_counter }}">0</span>
                                     </div>
-                                    <h4 class="counter-title">{{ $counter->title }}</h4>
+                                    <h6 class="counter-title">{{ $counter->title }}</h6>
                                 </div>
                             </div>
                             @endforeach
@@ -728,20 +733,85 @@
                     <img src="{{asset('uploads/popup/'.$setting->popup)}}" style="width: -webkit-fill-available;" />
                 </a>
                 @endif
-                
+
             </div>
         </div>
 
     </div>
 </div>
 @endif
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="bg-warning text-danger" id="access-code-warning"></div>
+            <input type="hidden" data-id="{{ $book->id }}" id="book">
+            <label for="">name</label>
+            <input type="text" id="access-code">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="view_book">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <!--End Default Section-->
 @endsection
 @section('script')
 <script>
-   $(document).ready(function(){       
+   $(document).ready(function(){
 		$('#myModal').modal('show');
 	});
 </script>
+<script>
+    $(document).ready(function(){
+        $('#view_book').on('click', function(){
+            let access_code = document.getElementById('access-code').value;
+            let book_id = $('#book').data('id');
+            // alert(book_id);
+            $.ajax({
+                type:'post',
+                url:'{{ route('book.accesscode') }}',
+                data:{_token: '{{csrf_token()}}','access_code':access_code,'book_id':book_id},
+                success: function(data){
+                    // window.location.href = 'hiring-process';
+                    if(data == 1){
+                        window.location.href = 'hiring-process';
+                    }else{
+                        document.getElementById('access-code-warning').innerText = data;
+                    }
+
+                }
+            });
+        });
+        $('#view-file').on('click', function(){
+            let book_id = $('#book').data('id');
+            $.ajax({
+                type:'post',
+                url:'{{ route('token.create') }}',
+                data:{_token: '{{csrf_token()}}','book_id':book_id},
+                success: function(data){
+                    alert(data);
+                    toastr.options.closeButton = true;
+                    toastr.options.closeMethod = 'fadeOut';
+                    toastr.options.closeDuration = 20;
+                    toastr.success(data.message);
+                }
+            });
+        });
+    });
+  </script>
 @endsection
+
+
+
+

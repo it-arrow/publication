@@ -24,13 +24,14 @@
                         </thead>
                         <tbody>
                             @foreach ($roles as $role)
+
                             <tr>
                                 <td> {{$role->id}} </td>
                                 <td> {{$role->name}} </td>
                                 <td>
                                     @foreach ($role->permissions as $permission)
-                                        <span class="badge badge-success">{{$permission->name}}</span>
-                                    @endforeach  
+                                        <span>{{$permission->name}},</span>
+                                    @endforeach
                                 </td>
                                 <form action="{{route('roles.destroy',$role->id)}}" method="post">
                                     @csrf
@@ -59,7 +60,7 @@
                                 </form>
                             </tr>
                             @endforeach
-                           
+
                         </tbody>
                     </table>
                 </div>
@@ -68,4 +69,3 @@
     </section>
 </div>
 @endsection
-    

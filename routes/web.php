@@ -53,6 +53,8 @@ use App\Http\Controllers\FaqController;
 use App\Http\Controllers\EnquiryController;
 use App\Http\Controllers\BreadCrumbController;
 use App\Http\Controllers\SchoolController;
+use App\Http\Controllers\GradeController;
+use App\Http\Controllers\BookController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -142,8 +144,13 @@ Route::group(['prefix' => 'dashboard',  'middleware' => 'auth'], function () {
 
     //School
     Route::resource('/schools',SchoolController::class);
+    //Grades
+    Route::resource('grades',GradeController::class);
 
-
+    //Book
+    Route::resource('books', BookController::class);
+    Route::get('/books/update/code_required',[BookController::class, 'update_code_required'])->name('books.update_code_required');
+    Route::get('/books/update/downloadable',[BookController::class, 'update_downloadable'])->name('books.update_downloadable');
 
     Route::resource('/trust&security', TrustController::class);
     //client section
@@ -270,10 +277,11 @@ Route::get('/calendar',[FrontendController::class,'calendar'])->name('calendar')
 Route::get('/apply-demands/{current}',[FrontendController::class,'apply_demands'])->name('apply-demands');
 Route::get('/current-demands',[FrontendController::class,'current_demands'])->name('current-demands');
 Route::get('/hiring-process',[FrontendController::class,'hiring_process'])->name('hiring-process');
-
+Route::post('/token/create',[FrontendController::class,'token_create'])->name('token.create');
 
 Route::get('/{slug}',[PageController::class,'show_custom_page'])->name('custom_page');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::post('/book-now',[BookingController::class,'store'])->name('book_now');
 });
+Route::post('book/views/',[FrontendController::class,'access_code'])->name('book.accesscode');

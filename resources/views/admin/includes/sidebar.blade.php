@@ -60,6 +60,12 @@
                 </a>
             </li>
             <li class="side-nav-item">
+                <a href="{{route('schools.index')}}" class="side-nav-link">
+                    <i class="mdi mdi-account-group"></i>
+                    <span> Schools </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#rolePermissions" aria-expanded="false"
                     aria-controls="rolePermissions" class="side-nav-link">
                     <i class="fa-regular fa-file"></i>
@@ -82,9 +88,21 @@
 
             </li>
             <li class="side-nav-item">
+                <a href="{{route('books.index')}}" class="side-nav-link">
+                    <i class="mdi mdi-star"></i>
+                    <span> Books </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
                 <a href="{{route('users.index')}}" class="side-nav-link">
                     <i class="mdi mdi-star"></i>
                     <span> Grades </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="{{route('categories.index')}}" class="side-nav-link">
+                    <i class="mdi mdi-alpha-c-box"></i>
+                    <span> Category </span>
                 </a>
             </li>
 

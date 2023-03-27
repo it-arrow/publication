@@ -1,7 +1,7 @@
   @php
       $setting = \App\Models\SiteSetting::first();
   @endphp
-  
+
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -51,7 +51,7 @@
                 {{-- <i class="right fas fa-angle-left"></i> --}}
               </p>
             </a>
-           
+
           </li>
 
           <li class="nav-item">
@@ -75,7 +75,7 @@
                   <p>General Settings</p>
                 </a>
               </li>
-             
+
             </ul>
           </li>
           {{-- <li class="nav-item">
@@ -128,7 +128,7 @@
             </ul>
           </li>
           @endcan --}}
-          
+
           <li class="nav-item">
             <a href="{{route('sliders.index')}}" class="nav-link {{ Route::is('sliders.index','sliders.create','sliders.edit') ? 'active' : '' }}">
               {{-- <i class="nav-icon fa-solid fa-images"></i> --}}
@@ -181,7 +181,7 @@
               </li>
             </ul>
           </li>
-          
+
           <li class="nav-item">
             <a href="{{route('opportunity.index')}}" class="nav-link {{ Route::is('opportunity.index','opportunity.show') ? 'active' : '' }}">
               <i class="nav-icon fas fa-book"></i>
@@ -190,8 +190,8 @@
               </p>
             </a>
           </li>
-          
-          
+
+
           <li class="nav-item">
             <a href="{{route('about.index')}}" class="nav-link {{ Route::is('about.index') ? 'active' : '' }}">
               <i class="nav-icon fas fa-users"></i>
@@ -214,7 +214,7 @@
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Clients
-                
+
               </p>
             </a>
           </li>
@@ -235,7 +235,7 @@
             </a>
           </li>
 
-          
+
           <li class="nav-item">
             <a href="{{route('photo.index')}}" class="nav-link {{ Route::is('photo.index','photo.create') ? 'active' : '' }}">
               <i class="nav-icon far fa-image"></i>
@@ -251,6 +251,16 @@
               <i class="nav-icon fas fa-book"></i>
               <p>
                 Custom Pages
+                {{-- <i class="fas fa-angle-right right"></i> --}}
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="{{route('pages.index')}}" class="nav-link {{ Route::is('pages.index','pages.create','pages.edit','pages.show') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                Log
                 {{-- <i class="fas fa-angle-right right"></i> --}}
               </p>
             </a>
